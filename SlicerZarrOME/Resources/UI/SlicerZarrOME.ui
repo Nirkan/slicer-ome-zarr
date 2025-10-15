@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SlicerZarrOME</class>
+ <widget class="qMRMLWidget" name="SlicerZarrOME">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>586</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="ctkCollapsibleButton" name="dataSourceCollapsibleButton">
+     <property name="text">
+      <string>OME-Zarr Data Source</string>
+     </property>
+     <layout class="QFormLayout" name="dataSourceFormLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="urlLabel">
+        <property name="text">
+         <string>URL/Path:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="urlLineEdit">
+        <property name="toolTip">
+         <string>Enter OME-Zarr URL or local path</string>
+        </property>
+        <property name="placeholderText">
+         <string>https://example.com/dataset.zarr or /path/to/dataset.zarr</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="statusLabel">
+        <property name="text">
+         <string>Status:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="statusValue">
+        <property name="styleSheet">
+         <string>color: gray;</string>
+        </property>
+        <property name="text">
+         <string>Not connected</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QPushButton" name="connectButton">
+        <property name="toolTip">
+         <string>Connect to the OME-Zarr dataset and read metadata</string>
+        </property>
+        <property name="text">
+         <string>Connect &amp;&amp; Analyze</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="ctkCollapsibleButton" name="datasetInfoCollapsibleButton">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="text">
+      <string>Dataset Information</string>
+     </property>
+     <layout class="QFormLayout" name="datasetInfoFormLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="dimensionsLabel">
+        <property name="text">
+         <string>Dimensions:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="dimensionsValue">
+        <property name="text">
+         <string>-</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="channelsLabel">
+        <property name="text">
+         <string>Channels:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="channelsValue">
+        <property name="text">
+         <string>-</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="timepointsLabel">
+        <property name="text">
+         <string>Timepoints:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="timepointsValue">
+        <property name="text">
+         <string>-</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="resolutionLevelsLabel">
+        <property name="text">
+         <string>Resolution Levels:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="resolutionLevelsValue">
+        <property name="text">
+         <string>-</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="ctkCollapsibleButton" name="loadingConfigCollapsibleButton">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="text">
+      <string>Loading Configuration</string>
+     </property>
+     <layout class="QFormLayout" name="loadingConfigFormLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="resolutionLabel">
+        <property name="text">
+         <string>Resolution Level:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="resolutionComboBox">
+        <property name="toolTip">
+         <string>Select the resolution level to load (0 = highest resolution)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="channelSelectionLabel">
+        <property name="text">
+         <string>Channels:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <layout class="QHBoxLayout" name="channelLayout">
+        <item>
+         <widget class="QSpinBox" name="channelSpinBox">
+          <property name="toolTip">
+           <string>Select channel to load</string>
+          </property>
+          <property name="minimum">
+           <number>0</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="channelSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="TimepointSelectionLabel">
+        <property name="text">
+         <string>Timepoint:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <layout class="QHBoxLayout" name="TimepointLayout">
+        <item>
+         <widget class="QSpinBox" name="TimepointSpinBox"/>
+        </item>
+        <item>
+         <spacer name="TimepointSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="ctkCollapsibleButton" name="loadDataCollapsibleButton">
+     <property name="text">
+      <string>Load Data</string>
+     </property>
+     <layout class="QVBoxLayout" name="loadDataLayout">
+      <item>
+       <widget class="QProgressBar" name="loadProgressBar">
+        <property name="visible">
+         <bool>false</bool>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="progressLabel">
+        <property name="styleSheet">
+         <string>color: gray; font-style: italic;</string>
+        </property>
+        <property name="text">
+         <string>Ready to load data</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="buttonLayout">
+        <item>
+         <widget class="QPushButton" name="loadButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string>Load the OME-Zarr data into 3D Slicer</string>
+          </property>
+          <property name="text">
+           <string>Load Data</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ctkCollapsibleButton</class>
+   <extends>QWidget</extends>
+   <header>ctkCollapsibleButton.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>qMRMLWidget</class>
+   <extends>QWidget</extends>
+   <header>qMRMLWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
