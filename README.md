@@ -1,4 +1,4 @@
-# SlicerZarr OME-Zarr Extension
+# Slicer OME-Zarr Extension
 
 A 3D Slicer extension for loading and visualizing OME-Zarr datasets.
 
@@ -21,6 +21,6 @@ A 3D Slicer extension for loading and visualizing OME-Zarr datasets.
 5. Click "Load Data"
 
 ## Requirements
-- 3D Slicer 5.0+
-- zarr >= 3.1.3
-- ome-zarr >= 0.12.2
+- 3D Slicer 5.9.0 (required)
+- zarr == 3.1.3 (used)
+- ome-zarr == 0.12.2 (used)
