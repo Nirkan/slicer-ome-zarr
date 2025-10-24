@@ -30,7 +30,7 @@
          <string>Enter OME-Zarr URL or local path</string>
         </property>
         <property name="placeholderText">
-         <string>https://example.com/dataset.zarr or /path/to/dataset.zarr</string>
+         <string>https://example.com/dataset.zarr </string>
         </property>
        </widget>
       </item>

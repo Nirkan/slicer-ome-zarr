@@ -500,9 +500,12 @@ class SlicerZarrOMELogic(ScriptedLoadableModuleLogic):
     def _setupConnection(self, url):
         """Setup OME-Zarr reader and get nodes"""
         store = parse_url(url, mode="r").store
+        print(f"DEBUG: Store type: {type(store)}")
         self.reader = Reader(parse_url(url))
+        print(f"DEBUG: Reader type: {type(self.reader)}")
         self.nodes = [node for node in self.reader()]
-        
+        print(f"DEBUG: Found {len(self.nodes)} data nodes")
+
         if not self.nodes:
             raise ValueError("No data nodes found in OME-Zarr dataset")
         
