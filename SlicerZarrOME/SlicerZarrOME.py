@@ -1145,7 +1145,83 @@ class SlicerZarrOMELogic(ScriptedLoadableModuleLogic):
             import traceback; traceback.print_exc()
     
         return labels_info
+    
+    
+    def _extractLabelSpacingOrigin(self, label_node, zoom_level):
+        """Extract spacing and origin for a specific label resolution level."""
+        spacing = [1.0, 1.0, 1.0]  # default [x, y, z]
+        origin = [0.0, 0.0, 0.0]   # default [x, y, z]
+        
+        try:
+            meta = getattr(label_node, 'metadata', {})
+            if not meta:
+                print(f"WARNING: No metadata found for label node")
+                return spacing, origin
+            
+            # Get axes to understand the dimension order
+            axes = meta.get('axes', [])
+            axis_types = [a.get('type', '') for a in axes]
+            axis_names = [a.get('name', '').lower() for a in axes]
+            
+            print(f"DEBUG: Label axes: {axis_names} (types: {axis_types})")
+            
+            # Find spatial axis indices (typically last 3 are z, y, x)
+            spatial_indices = {}
+            for i, (name, typ) in enumerate(zip(axis_names, axis_types)):
+                if typ == 'space' or name in ('x', 'y', 'z'):
+                    spatial_indices[name] = i
+            
+            print(f"DEBUG: Spatial axis indices: {spatial_indices}")
+            
+            # Get coordinate transformations for this level
+            transforms = meta.get('coordinateTransformations', [])
+            if len(transforms) <= zoom_level:
+                print(f"WARNING: No transforms found for level {zoom_level}")
+                return spacing, origin
+            
+            level_transforms = transforms[zoom_level]
+            print(f"DEBUG: Level {zoom_level} transforms: {level_transforms}")
+            
+            # Parse scale and translation
+            for transform in level_transforms:
+                t_type = transform.get('type')
+                
+                if t_type == 'scale':
+                    scale = transform.get('scale', [])
+                    print(f"DEBUG: Raw scale array: {scale}")
+                    
+                    # Map scale values to x, y, z based on axis order
+                    if 'x' in spatial_indices and len(scale) > spatial_indices['x']:
+                        spacing[0] = float(scale[spatial_indices['x']])
+                    if 'y' in spatial_indices and len(scale) > spatial_indices['y']:
+                        spacing[1] = float(scale[spatial_indices['y']])
+                    if 'z' in spatial_indices and len(scale) > spatial_indices['z']:
+                        spacing[2] = float(scale[spatial_indices['z']])
+                    
+                    print(f"DEBUG: Extracted spacing [x,y,z]: {spacing}")
+                
+                elif t_type == 'translation':
+                    offset = transform.get('translation', [])
+                    print(f"DEBUG: Raw translation array: {offset}")
+                    
+                    # Map offset values to x, y, z based on axis order
+                    if 'x' in spatial_indices and len(offset) > spatial_indices['x']:
+                        origin[0] = float(offset[spatial_indices['x']])
+                    if 'y' in spatial_indices and len(offset) > spatial_indices['y']:
+                        origin[1] = float(offset[spatial_indices['y']])
+                    if 'z' in spatial_indices and len(offset) > spatial_indices['z']:
+                        origin[2] = float(offset[spatial_indices['z']])
+                    
+                    print(f"DEBUG: Extracted origin [x,y,z]: {origin}")
+        
+        except Exception as e:
+            print(f"ERROR: Failed to extract spacing/origin: {e}")
+            import traceback
+            traceback.print_exc()
+        
+        return spacing, origin
 
+    
     def loadLabelData(self, label_name, zoom_level=-1):
         """Load label data from the OME-Zarr dataset."""
         if not hasattr(self, 'metadata') or not self.metadata.get('hasLabels', False):
