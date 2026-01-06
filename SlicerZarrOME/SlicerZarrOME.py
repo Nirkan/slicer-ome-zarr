@@ -1260,12 +1260,17 @@ class SlicerZarrOMELogic(ScriptedLoadableModuleLogic):
             import numpy as np
             label_data = np.array(label_array)
             
+            print(f"DEBUG: Label array shape: {label_data.shape}")
+            
             while label_data.ndim > 3:
                 label_data = label_data[0]
             
+            print(f"DEBUG: Final label data shape: {label_data.shape}")
+            
+            # Create segmentation and labelmap nodes
             segmentation_node = slicer.mrmlScene.AddNewNodeByClass(
                 "vtkMRMLSegmentationNode", 
-                f"Label_{label_name}"
+                f"Label_{label_name}_L{zoom_level}"
             )
             
             labelmap_node = slicer.mrmlScene.AddNewNodeByClass(
@@ -1273,18 +1278,25 @@ class SlicerZarrOMELogic(ScriptedLoadableModuleLogic):
                 f"LabelMap_{label_name}_temp"
             )
             
+            # Update labelmap with array data
             slicer.util.updateVolumeFromArray(labelmap_node, label_data)
             
+            # **KEY FIX: Set spacing and origin from metadata**
+            spacing, origin = self._extractLabelSpacingOrigin(label_node, zoom_level)
+            labelmap_node.SetSpacing(spacing[0], spacing[1], spacing[2])
+            labelmap_node.SetOrigin(origin[0], origin[1], origin[2])
+            
+            print(f"INFO: Set labelmap spacing={spacing}, origin={origin}")
+            
+            # Import labelmap to segmentation
             slicer.modules.segmentations.logic().ImportLabelmapToSegmentationNode(
                 labelmap_node, 
                 segmentation_node
             )
             
-            slicer.mrmlScene.RemoveNode(labelmap_node)
-            
             # Create 3D surface representation
             segmentation_node.CreateClosedSurfaceRepresentation()
-
+            
             # Enable 3D display
             displayNode = segmentation_node.GetDisplayNode()
             if displayNode:
@@ -1295,10 +1307,11 @@ class SlicerZarrOMELogic(ScriptedLoadableModuleLogic):
                 displayNode.SetOpacity3D(0.6)
                 displayNode.SetOpacity2DFill(0.5)
                 print(f"DEBUG: Enabled 3D display for '{label_name}'")
-            else:
-                print(f"WARNING: Display node not found for segmentation node '{label_name}'")
             
-            print(f"INFO: Successfully loaded label '{label_name}'")
+            # Remove temporary labelmap
+            slicer.mrmlScene.RemoveNode(labelmap_node)
+            
+            print(f"INFO: Successfully loaded label '{label_name}' at level {zoom_level}")
             return True
             
         except Exception as e:
@@ -1306,7 +1319,6 @@ class SlicerZarrOMELogic(ScriptedLoadableModuleLogic):
             import traceback
             traceback.print_exc()
             return False
-
 
 #
 # SlicerZarrOMETest
