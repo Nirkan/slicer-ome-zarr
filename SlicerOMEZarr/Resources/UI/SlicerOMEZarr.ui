@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SlicerZarrOME</class>
- <widget class="qMRMLWidget" name="SlicerZarrOME">
+ <class>SlicerOMEZarr</class>
+ <widget class="qMRMLWidget" name="SlicerOMEZarr">
   <property name="geometry">
    <rect>
     <x>0</x>
