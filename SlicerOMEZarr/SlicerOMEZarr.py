@@ -54,18 +54,18 @@ def ensureOMEZarrAvailable():
 
 
 #
-# SlicerZarrOME
+# SlicerOMEZarr
 #
 
 
-class SlicerZarrOME(ScriptedLoadableModule):
+class SlicerOMEZarr(ScriptedLoadableModule):
     """Uses ScriptedLoadableModule base class, available at:
     https://github.com/Slicer/Slicer/blob/main/Base/Python/slicer/ScriptedLoadableModule.py
     """
 
     def __init__(self, parent):
         ScriptedLoadableModule.__init__(self, parent)
-        self.parent.title = _("SlicerZarrOME")  # TODO: make this more human readable by adding spaces
+        self.parent.title = _("SlicerOMEZarr")  # TODO: make this more human readable by adding spaces
         # TODO: set categories (folders where the module shows up in the module selector)
         self.parent.categories = [translate("qSlicerAbstractCoreModule", "Examples")]
         self.parent.dependencies = []  # TODO: add here list of module names that this module requires
@@ -74,7 +74,7 @@ class SlicerZarrOME(ScriptedLoadableModule):
         # _() function marks text as translatable to other languages
         self.parent.helpText = _("""
 This is an example of scripted loadable module bundled in an extension.
-See more information in <a href="https://github.com/organization/projectname#SlicerZarrOME">module documentation</a>.
+See more information in <a href="https://github.com/organization/projectname#SlicerOMEZarr">module documentation</a>.
 """)
         # TODO: replace with organization, grant and thanks
         self.parent.acknowledgementText = _("""
@@ -102,36 +102,36 @@ def registerSampleData():
     # To ensure that the source code repository remains small (can be downloaded and installed quickly)
     # it is recommended to store data sets that are larger than a few MB in a Github release.
 
-    # SlicerZarrOME1
+    # SlicerOMEZarr1
     SampleData.SampleDataLogic.registerCustomSampleDataSource(
         # Category and sample name displayed in Sample Data module
-        category="SlicerZarrOME",
-        sampleName="SlicerZarrOME1",
+        category="SlicerOMEZarr",
+        sampleName="SlicerOMEZarr1",
         # Thumbnail should have size of approximately 260x280 pixels and stored in Resources/Icons folder.
         # It can be created by Screen Capture module, "Capture all views" option enabled, "Number of images" set to "Single".
-        thumbnailFileName=os.path.join(iconsPath, "SlicerZarrOME1.png"),
+        thumbnailFileName=os.path.join(iconsPath, "SlicerOMEZarr1.png"),
         # Download URL and target file name
         uris="https://github.com/Slicer/SlicerTestingData/releases/download/SHA256/998cb522173839c78657f4bc0ea907cea09fd04e44601f17c82ea27927937b95",
-        fileNames="SlicerZarrOME1.nrrd",
+        fileNames="SlicerOMEZarr1.nrrd",
         # Checksum to ensure file integrity. Can be computed by this command:
         #  import hashlib; print(hashlib.sha256(open(filename, "rb").read()).hexdigest())
         checksums="SHA256:998cb522173839c78657f4bc0ea907cea09fd04e44601f17c82ea27927937b95",
         # This node name will be used when the data set is loaded
-        nodeNames="SlicerZarrOME1",
+        nodeNames="SlicerOMEZarr1",
     )
 
-    # SlicerZarrOME2
+    # SlicerOMEZarr2
     SampleData.SampleDataLogic.registerCustomSampleDataSource(
         # Category and sample name displayed in Sample Data module
-        category="SlicerZarrOME",
-        sampleName="SlicerZarrOME2",
-        thumbnailFileName=os.path.join(iconsPath, "SlicerZarrOME2.png"),
+        category="SlicerOMEZarr",
+        sampleName="SlicerOMEZarr2",
+        thumbnailFileName=os.path.join(iconsPath, "SlicerOMEZarr2.png"),
         # Download URL and target file name
         uris="https://github.com/Slicer/SlicerTestingData/releases/download/SHA256/1a64f3f422eb3d1c9b093d1a18da354b13bcf307907c66317e2463ee530b7a97",
-        fileNames="SlicerZarrOME2.nrrd",
+        fileNames="SlicerOMEZarr2.nrrd",
         checksums="SHA256:1a64f3f422eb3d1c9b093d1a18da354b13bcf307907c66317e2463ee530b7a97",
         # This node name will be used when the data set is loaded
-        nodeNames="SlicerZarrOME2",
+        nodeNames="SlicerOMEZarr2",
     )
     
     
@@ -139,12 +139,12 @@ def registerSampleData():
 
 
 #
-# SlicerZarrOMEParameterNode
+# SlicerOMEZarrParameterNode
 #
 
 
 @parameterNodeWrapper
-class SlicerZarrOMEParameterNode:
+class SlicerOMEZarrParameterNode:
     """
     The parameters needed by OME-Zarr module.
     """
@@ -163,11 +163,11 @@ class SlicerZarrOMEParameterNode:
     
  
 #
-# SlicerZarrOMEWidget
+# SlicerOMEZarrWidget
 #
 
 
-class SlicerZarrOMEWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
+class SlicerOMEZarrWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
     """Uses ScriptedLoadableModuleWidget base class, available at:
     https://github.com/Slicer/Slicer/blob/main/Base/Python/slicer/ScriptedLoadableModule.py
     """
@@ -185,7 +185,7 @@ class SlicerZarrOMEWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         ScriptedLoadableModuleWidget.setup(self)
 
         # Load widget from .ui file (created by Qt Designer).
-        uiWidget = slicer.util.loadUI(self.resourcePath("UI/SlicerZarrOME.ui"))
+        uiWidget = slicer.util.loadUI(self.resourcePath("UI/SlicerOMEZarr.ui"))
         self.layout.addWidget(uiWidget)
         self.ui = slicer.util.childWidgetVariables(uiWidget)
 
@@ -193,7 +193,7 @@ class SlicerZarrOMEWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         uiWidget.setMRMLScene(slicer.mrmlScene)
 
         # Create logic class
-        self.logic = SlicerZarrOMELogic()
+        self.logic = SlicerOMEZarrLogic()
 
         # OME-Zarr specific button connections
         self.ui.connectButton.connect("clicked(bool)", self.onConnectClicked)
@@ -239,7 +239,7 @@ class SlicerZarrOMEWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
         """Ensure parameter node exists and observed - OME-Zarr version."""
         self.setParameterNode(self.logic.getParameterNode())
         
-    def setParameterNode(self, inputParameterNode: SlicerZarrOMEParameterNode | None) -> None:
+    def setParameterNode(self, inputParameterNode: SlicerOMEZarrParameterNode | None) -> None:
         """Set and observe parameter node."""
         if self._parameterNode:
             self._parameterNode.disconnectGui(self._parameterNodeGuiTag)
@@ -641,11 +641,11 @@ class SlicerZarrOMEWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
 
 
 #
-# SlicerZarrOMELogic
+# SlicerOMEZarrLogic
 #
 
 
-class SlicerZarrOMELogic(ScriptedLoadableModuleLogic):
+class SlicerOMEZarrLogic(ScriptedLoadableModuleLogic):
     """This class should implement all the actual
     computation done by your module.  The interface
     should be such that other python code can import
@@ -661,7 +661,7 @@ class SlicerZarrOMELogic(ScriptedLoadableModuleLogic):
         self.nodes = None
 
     def getParameterNode(self):
-        return SlicerZarrOMEParameterNode(super().getParameterNode())
+        return SlicerOMEZarrParameterNode(super().getParameterNode())
 
     def connectToZarr(self, url: str):
         """Connect to OME-Zarr dataset and read metadata"""
@@ -1321,12 +1321,12 @@ class SlicerZarrOMELogic(ScriptedLoadableModuleLogic):
             return False
 
 #
-# SlicerZarrOMETest
+# SlicerOMEZarrTest
 #
 
 '''
 
-class SlicerZarrOMETest(ScriptedLoadableModuleTest):
+class SlicerOMEZarrTest(ScriptedLoadableModuleTest):
     """
     This is the test case for your scripted module.
     Uses ScriptedLoadableModuleTest base class, available at:
@@ -1340,9 +1340,9 @@ class SlicerZarrOMETest(ScriptedLoadableModuleTest):
     def runTest(self):
         """Run as few or as many tests as needed here."""
         self.setUp()
-        self.test_SlicerZarrOME1()
+        self.test_SlicerOMEZarr1()
 
-    def test_SlicerZarrOME1(self):
+    def test_SlicerOMEZarr1(self):
         """Ideally you should have several levels of tests.  At the lowest level
         tests should exercise the functionality of the logic with different inputs
         (both valid and invalid).  At higher levels your tests should emulate the
@@ -1361,7 +1361,7 @@ class SlicerZarrOMETest(ScriptedLoadableModuleTest):
         import SampleData
 
         registerSampleData()
-        inputVolume = SampleData.downloadSample("SlicerZarrOME1")
+        inputVolume = SampleData.downloadSample("SlicerOMEZarr1")
         self.delayDisplay("Loaded test data set")
 
         inputScalarRange = inputVolume.GetImageData().GetScalarRange()
@@ -1373,7 +1373,7 @@ class SlicerZarrOMETest(ScriptedLoadableModuleTest):
 
         # Test the module logic
 
-        logic = SlicerZarrOMELogic()
+        logic = SlicerOMEZarrLogic()
 
         # Test algorithm with non-inverted threshold
         logic.process(inputVolume, outputVolume, threshold, True)
