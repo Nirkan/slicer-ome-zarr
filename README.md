@@ -1,3 +1,4 @@
+**Note** : *This is a prototype*.
 # Slicer OME-Zarr Extension
 
 A 3D Slicer extension for loading and visualizing OME-Zarr datasets.
